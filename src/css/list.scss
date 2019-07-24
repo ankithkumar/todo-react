@@ -1,0 +1,28 @@
+.list {
+    padding-top: 2%;
+    border-top: 2px solid grey;
+    .list-table {
+        width: 90%;
+        tr {
+            width: 100%;
+            margin: 14px 0;
+            padding: 1% 0;
+            &:hover {
+                border-top: 1px solid grey;
+                border-bottom: 1px solid grey;
+                background-color: beige;
+                padding: 2% 0;
+            }
+            th, td{
+                width: 20%;
+                margin: 0 1%;
+                float: left;
+                font-size: 24px;
+                text-align: justify;
+                &:first-child {
+                    width: 10%;
+                }
+            }
+        }
+    }
+}
