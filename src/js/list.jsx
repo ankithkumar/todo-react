@@ -1,5 +1,6 @@
 import React from "react";
 import DeleteTodo from './deletetodo.jsx';
+import Status from './status.jsx';
 import './../css/list.scss';
 
 export default class List extends React.Component {
@@ -33,7 +34,7 @@ export default class List extends React.Component {
                             return (<tr  key={index}>
                                 <td>{index + 1}</td>
                                 <td>{data.name}</td>
-                                <td>{data.status}</td>
+                                <td><Status selectedStatus={data.status} /></td>
                                 <td><DeleteTodo todo={data} onDelete={this.handleOnDelete}/></td>
                             </tr>);
                         })

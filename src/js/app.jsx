@@ -2,6 +2,9 @@ import React from 'react';
 import List from './list.jsx';
 import Insert from './insert.jsx';
 import {filter} from 'lodash';
+import AppBar from '@material-ui/core/AppBar';
+import Toolbar from '@material-ui/core/Toolbar';
+import TypoGraphy from '@material-ui/core/Typography'
 import './../css/appComponent.scss';
 
 export default class AppComponent extends React.Component {
@@ -32,6 +35,15 @@ export default class AppComponent extends React.Component {
     render() {
         return (
             <div className="container">
+                <div>
+                    <AppBar color="inherit" position="sticky">
+                        <Toolbar>
+                            <TypoGraphy color="inherit">
+                                <span>Todo App</span>
+                            </TypoGraphy>
+                        </Toolbar>
+                    </AppBar>
+                </div>
                 <Insert onAddTodo={this.addTodo}/>
                 <List listData={this.state.list} deleteTodo={this.deleteTask}/>
             </div>
