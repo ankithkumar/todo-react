@@ -3,37 +3,33 @@ import './../css/insert.scss';
 
 export default class Insert extends React.Component {
     constructor(props) {
+        console.log('insertComponent props has ', props);
         super(props);
         this.state = {
-            inputText: ''
+            inputValue : ''
         }
-        this.isSubmitted = this.isSubmitted.bind(this);
-        this.handleChange = this.handleChange.bind(this);
     }
 
-    handleChange(e) {
-        if (e.keyCode == 13 && !e.target.value && e.target.value != '') {
-            return;
-        }
-       this.setState({inputText: e.target.value});
+    handleChange(evt) {
+        this.setState({inputValue: evt.target.value});
     }
 
-    isSubmitted(e) {
-        if (e.keyCode == 13 && e.target.value && e.target.value != '') {
-            this.props.onAddTodo(this.state.inputText);
-            this.setState({inputText:''});
-        }
+    handleSubmit() {
+        console.log('value contains ', this.state.inputValue);
+        this.props.handleInsert(this.state.inputValue);
+        this.setState({inputValue: ''});
     }
 
     render() {
-        return (
-            <div className="todo_form">
+        return(
+            <div className="insert">
                 <input
                     type="text"
-                    value={this.state.inputText}
+                    value={this.state.inputValue}
                     onChange={() => this.handleChange(event)}
-                    onKeyDown={() => this.isSubmitted(event)}
-                    placeholder="please enter your todo"/>
+                    placeholder="Enter your note title"
+                />
+                <button onClick={() => this.handleSubmit()}>Submit</button>
             </div>
         )
     }

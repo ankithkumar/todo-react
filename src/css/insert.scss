@@ -1,8 +1,15 @@
-.todo_form {
-    margin: 2% 0;
+.insert {
+    width: 100%;
     input {
-        width: 90%;
+        width: 60%;
         padding: 2%;
-        font-size: 28px;
+        font-size: 24px;
+        margin-right: 5%;
+    }
+    button {
+        width: 20%;
+        padding: 2%;
+        font-size: 24px;
+        color: green;
     }
 }
