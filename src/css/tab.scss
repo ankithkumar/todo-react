@@ -1,0 +1,21 @@
+.tab {
+    width: 100%;
+    background-color: rgba(10, 0, 200, 0.4);
+    border-bottom: 2px solid black;
+    button {
+        width: 20%;
+        border: none;
+        font-size: 24px;
+        padding: 10px;
+        color: white;
+        background-color: transparent;
+        &:hover {
+            cursor: pointer;
+        }
+        &.selected {
+            background-color: aquamarine;
+            border: none;
+            color: red;
+        }
+    }
+}
