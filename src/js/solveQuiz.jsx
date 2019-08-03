@@ -45,7 +45,10 @@ export default class SolveQuiz extends React.Component {
                     this.props.quizList.map((quiz, index) => {
                         return (
                             <ListGroup.Item as="li" key={index}>
-                                {quiz.title}
+                                <Row>
+                                    <Col md={6}>{quiz.title}</Col>
+                                    <Col md={6}>Questions - {quiz.Questions.length}</Col>
+                                </Row>
                             </ListGroup.Item>
                         );
                     })
