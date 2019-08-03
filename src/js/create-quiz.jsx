@@ -4,6 +4,7 @@ import Col from 'react-bootstrap/Col'
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 import Breadcrumb from 'react-bootstrap/Breadcrumb';
+import Alert from 'react-bootstrap/Alert'
 import './../css/create-quiz.scss';
 
 export default class CreateQuiz extends React.Component {
@@ -14,7 +15,8 @@ export default class CreateQuiz extends React.Component {
                 title: '',
                 Questions: [],
             },
-            hasEditingStated: false
+            hasEditingStated: false,
+            hasSubmitted: false
         }
         this.storeQuestionTitle = this.storeQuestionTitle.bind(this);
         this.showFirstForm = this.showFirstForm.bind(this);
@@ -102,6 +104,22 @@ export default class CreateQuiz extends React.Component {
         return flag;
     }
 
+    resetState() {
+        let quiz = {
+            title: '',
+            Questions: []
+        };
+        this.setState({Quiz: quiz});
+    }
+
+    submitQuiz() {
+        console.log('submit quiz: ', this.state.Quiz);
+        let quiz = {...this.state.Quiz};
+        this.props.onCreateQuiz(quiz);
+        this.setState({hasSubmitted: true});
+        this.setState({hasEditingStated: false});
+    }
+
     storeQuestionName(evt, index) {
         let quiz = {...this.state.Quiz};
         quiz.Questions[index].question_name = evt.target.value;
@@ -121,6 +139,11 @@ export default class CreateQuiz extends React.Component {
         quiz.Questions[index].correct_answer.name = evt.target.value;
         this.setState({Quiz: quiz});
         console.log(this.state);
+    }
+
+    createAnotherQuiz() {
+        this.setState({hasSubmitted: false});
+        this.resetState();
     }
 
     showSecondForm() {
@@ -213,11 +236,31 @@ export default class CreateQuiz extends React.Component {
         );
     }
 
+    showSuccessMessage() {
+        return (
+            <Alert variant="success">
+                <Alert.Heading>You have successfully created {this.state.Quiz.title} quiz.</Alert.Heading>
+                <hr />
+                <p className="mb-0">
+                    you can view your quiz and solve them in 'solve-quiz' area.
+                </p>
+                <hr />
+                <div className="d-flex justify-content-end">
+                    <Button onClick={() => this.createAnotherQuiz()} variant="outline-success">
+                        Create Another quiz
+                    </Button>
+                </div>
+            </Alert>
+        )
+    }
     render() {
         return (
             <div className="create-quiz">
                 <div className="input-box">
-                    {this.showFirstForm()}
+
+                    {
+                        this.state.hasSubmitted ? this.showSuccessMessage() : this.showFirstForm()
+                    }
                 </div>
                 {
                     this.state.hasEditingStated ? this.showSecondForm() : ''
