@@ -1,10 +1,10 @@
 import React from 'react';
 import Container from 'react-bootstrap/Container';
 import CreateQuiz from './create-quiz.jsx';
-import Tab from './tab.jsx';
 import Setup from './setup.jsx';
 import SolveQuiz from './solveQuiz.jsx';
 import ls from 'local-storage';
+import AppRouter from './app-route.jsx';
 
 export default class AppComponent extends React.Component {
     constructor() {
@@ -14,7 +14,6 @@ export default class AppComponent extends React.Component {
             quizList: [],
             selection: ''
         };
-        this.handleSelection = this.handleSelection.bind(this);
         this.addToQuiz = this.addToQuiz.bind(this);
     }
 
@@ -39,18 +38,10 @@ export default class AppComponent extends React.Component {
         });
     }
 
-    handleSelection(selectionVal) {
-        console.log(selectionVal);
-        this.setState({selection: selectionVal});
-    }
-
     render() {
         return(
             <Container>
-                <Tab onSelection={this.handleSelection} />
-                { this.state.selection === 'createQuiz' && <CreateQuiz onCreateQuiz={this.addToQuiz}/>}
-                { this.state.selection === 'solveQuiz' && <SolveQuiz quizList={this.state.quizList}/>}
-                { !this.state.selection && <Setup />}
+                <AppRouter onCreateQuiz={this.addToQuiz} quizList={this.state.quizList}/>
             </Container>
         );
     }
