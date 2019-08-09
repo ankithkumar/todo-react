@@ -5,7 +5,11 @@ import Setup from './setup.jsx';
 import SolveQuiz from './solveQuiz.jsx';
 import ls from 'local-storage';
 import AppRouter from './app-route.jsx';
+import store from "./store/index";
+import { addQuiz } from "./actions/index";
 
+window.store = store;
+window.addQuiz = addQuiz;
 export default class AppComponent extends React.Component {
     constructor() {
         super();
@@ -18,6 +22,7 @@ export default class AppComponent extends React.Component {
     }
 
     componentDidMount() {
+        store.subscribe(() => console.log('Look ma, Redux!!'))
         if (ls.get(this.state.key)) {
             this.setState({quizList: JSON.parse(ls.get(this.state.key))}, () => {
                 console.log('successfully stored from localstorage ', this.state.quizList);
@@ -35,6 +40,7 @@ export default class AppComponent extends React.Component {
         this.setState({quizList: quizzes}, () => {
             console.log('adding to Quiz ', this.state.quizList);
             ls.set(this.state.key, JSON.stringify(this.state.quizList));
+            store.dispatch(addQuiz({ quiz }));
         });
     }
 
