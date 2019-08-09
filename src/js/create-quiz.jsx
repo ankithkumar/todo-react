@@ -257,7 +257,6 @@ export default class CreateQuiz extends React.Component {
         return (
             <div className="create-quiz">
                 <div className="input-box">
-
                     {
                         this.state.hasSubmitted ? this.showSuccessMessage() : this.showFirstForm()
                     }

@@ -4,17 +4,19 @@ import Col from 'react-bootstrap/Col'
 import './../css/solve-quiz.scss';
 import Alert from 'react-bootstrap/Alert'
 import ListGroup from 'react-bootstrap/ListGroup';
+import AnswerQuiz from './answer-quiz.jsx';
 
 export default class SolveQuiz extends React.Component {
     constructor(props) {
-        console.log('props ', props);
+        console.log('props in solvequiz has ', props);
         super(props);
         this.state = {
             quizStarted: false,
             quizAnswers: {
                 Quiz_name: '',
                 Answers: []
-            }
+            },
+            quizIndex: null
         }
         console.log(props);
         this.showEmptyMessage = this.showEmptyMessage.bind(this);
@@ -35,6 +37,12 @@ export default class SolveQuiz extends React.Component {
         )
     }
 
+    showQuestions(index) {
+        this.setState({'quizIndex': index});
+        this.setState({'quizStarted': true});
+        console.log('index ', index);
+    }
+
     showTitles() {
         return (
             <ListGroup variant="flush" className="question-list">
@@ -44,7 +52,7 @@ export default class SolveQuiz extends React.Component {
                 {
                     this.props.quizList.map((quiz, index) => {
                         return (
-                            <ListGroup.Item as="li" key={index}>
+                            <ListGroup.Item as="li" key={index} onClick={() => this.showQuestions(index)}>
                                 <Row>
                                     <Col md={6}>{quiz.title}</Col>
                                     <Col md={6}>Questions - {quiz.Questions.length}</Col>
@@ -60,15 +68,22 @@ export default class SolveQuiz extends React.Component {
         return (
             <div className="quiz-title">
                 {
-                    this.props && this.props.quizList && this.props.quizList.length ? this.showTitles() : this.showEmptyMessage()
+                    this.props &&
+                    this.props.quizList &&
+                    this.props.quizList.length ?
+                    this.showTitles() :
+                    this.showEmptyMessage()
                 }
             </div>
         );
     }
 
-    answerQuiz(quizName) {
+    answerQuiz() {
         return (
-            <p> Quiz name is {quizName} </p>
+            <div className="answer-quiz">
+                <p> Quiz name is {this.props.quizList[this.state.quizIndex].title} </p>
+                <AnswerQuiz questions={this.props.quizList[this.state.quizIndex].Questions} />
+            </div>
         )
     }
 
@@ -80,7 +95,7 @@ export default class SolveQuiz extends React.Component {
                         {
                             !this.state.quizStarted ?
                             this.showQuizTitles():
-                            this.answerQuiz(this.state.quizAnswers.Quiz_name)
+                            this.answerQuiz()
                         }
                     </Col>
                 </Row>

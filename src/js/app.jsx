@@ -1,11 +1,15 @@
 import React from 'react';
 import Container from 'react-bootstrap/Container';
 import CreateQuiz from './create-quiz.jsx';
-import Tab from './tab.jsx';
 import Setup from './setup.jsx';
 import SolveQuiz from './solveQuiz.jsx';
 import ls from 'local-storage';
+import AppRouter from './app-route.jsx';
+import store from "./store/index";
+import { addQuiz } from "./actions/index";
 
+window.store = store;
+window.addQuiz = addQuiz;
 export default class AppComponent extends React.Component {
     constructor() {
         super();
@@ -14,11 +18,11 @@ export default class AppComponent extends React.Component {
             quizList: [],
             selection: ''
         };
-        this.handleSelection = this.handleSelection.bind(this);
         this.addToQuiz = this.addToQuiz.bind(this);
     }
 
     componentDidMount() {
+        store.subscribe(() => console.log('Look ma, Redux!!'))
         if (ls.get(this.state.key)) {
             this.setState({quizList: JSON.parse(ls.get(this.state.key))}, () => {
                 console.log('successfully stored from localstorage ', this.state.quizList);
@@ -36,21 +40,14 @@ export default class AppComponent extends React.Component {
         this.setState({quizList: quizzes}, () => {
             console.log('adding to Quiz ', this.state.quizList);
             ls.set(this.state.key, JSON.stringify(this.state.quizList));
+            store.dispatch(addQuiz({ quiz }));
         });
-    }
-
-    handleSelection(selectionVal) {
-        console.log(selectionVal);
-        this.setState({selection: selectionVal});
     }
 
     render() {
         return(
             <Container>
-                <Tab onSelection={this.handleSelection} />
-                { this.state.selection === 'createQuiz' && <CreateQuiz onCreateQuiz={this.addToQuiz}/>}
-                { this.state.selection === 'solveQuiz' && <SolveQuiz quizList={this.state.quizList}/>}
-                { !this.state.selection && <Setup />}
+                <AppRouter onCreateQuiz={this.addToQuiz} quizList={this.state.quizList}/>
             </Container>
         );
     }
